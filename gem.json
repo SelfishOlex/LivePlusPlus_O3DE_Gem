@@ -1,0 +1,16 @@
+{
+    "gem_name": "LivePlusPlus",
+    "display_name": "LivePlusPlus",
+    "license": "https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/blob/main/LICENSE for the integration. https://liveplusplus.tech/legal_notice.html for Live++",
+    "origin": "The primary repo for this gem is at https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem",
+    "type": "Code",
+    "summary": "An integration of hot loading https://liveplusplus.tech/ for Open 3D Engine",
+    "canonical_tags": [
+        "Gem"
+    ],
+    "user_tags": [
+        "LivePlusPlus"
+    ],
+    "icon_path": "preview.png",
+    "requirements": ""
+}
