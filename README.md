@@ -1,5 +1,9 @@
 # LivePlusPlus_O3DE_Gem
-An integration of https://liveplusplus.tech/ for Open 3D Engine (Windows only)
+An integration of https://liveplusplus.tech/ for Open 3D Engine (Windows only).
+
+See Open 3D Engine at https://github.com/o3de/o3de and https://o3de.org/.
+
+*Important*: Live++ is not open source. See its website for details: https://liveplusplus.tech/pricing.html and https://liveplusplus.tech/legal_notice.html.
 
 ## Installation
 1. Pull down this repository, for example to `C:\git\LivePlusPlus_O3DE_Gem\`.
