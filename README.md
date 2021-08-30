@@ -16,6 +16,40 @@ See Open 3D Engine at https://github.com/o3de/o3de and https://o3de.org/.
 1. Unzip it into `C:\git\LivePlusPlus_O3DE_Gem\3rdParty\LivePP`.
 1. Compile your project and run.
 
+## Modifying Compiler/Linker Settings for Hotpatching C++ code
+1. Go to o3de\cmake\Platform\Common\MSVC\Configurations_msvc.cmake
+1. Make the following changes:
+
+```
+PS C:\git\o3de> git diff C:\git\o3de\cmake\Platform\Common\MSVC\Configurations_msvc.cmake
+diff --git a/cmake/Platform/Common/MSVC/Configurations_msvc.cmake b/cmake/Platform/Common/MSVC/Configurations_msvc.cmake
+index 9353e4eb1c..3ae8796b3c 100644
+--- a/cmake/Platform/Common/MSVC/Configurations_msvc.cmake
++++ b/cmake/Platform/Common/MSVC/Configurations_msvc.cmake
+@@ -68,6 +68,8 @@ ly_append_configurations_options(
+         /Zc:inline      # Removes unreferenced functions or data that are COMDATs or only have internal linkage
+         /Zc:wchar_t     # Use compiler native wchar_t
+         /Zi             # Generate debugging information (no Edit/Continue)
++        /Z7             # for hot patching C++ code
++        /Gw             # for hot patching C++ code
+     COMPILATION_RELEASE
+         /Ox             # Full optimization
+         /Ob2            # Inline any suitable function
+@@ -78,8 +80,9 @@ ly_append_configurations_options(
+         /NOLOGO             # Suppress Copyright and version number message
+         /IGNORE:4099        # 3rdParty linking produces noise with LNK4099
+     LINK_NON_STATIC_PROFILE
+-        /OPT:REF            # Eliminates functions and data that are never referenced
+-        /OPT:ICF            # Perform identical COMDAT folding. Redundant COMDATs can be removed from the linker output
++        /OPT:NOREF            # for hot patching C++ code
++        /OPT:NOICF            # for hot patching C++ code
++        /FUNCTIONPADMIN       # for hot patching C++ code
+         /INCREMENTAL:NO
+         /DEBUG              # Generate pdbs
+     LINK_NON_STATIC_RELEASE
+```
+
+
 ## Configuration
 1. Refer to https://liveplusplus.tech/docs/documentation.html for Live++ docs.
 1. By default, all gems registered for your O3DE project will be hot patched.
