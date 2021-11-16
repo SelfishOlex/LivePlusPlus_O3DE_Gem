@@ -22,7 +22,7 @@ An integration of [Live++](https://liveplusplus.tech/) for [Open 3D Engine](http
 
 1. Go to `o3de\cmake\Platform\Common\MSVC\Configurations_msvc.cmake`
 1. Make the following changes:
-
+a. Profile Builds  
     ```bash
     PS C:\git\o3de> git diff C:\git\o3de\cmake\Platform\Common\MSVC\Configurations_msvc.cmake
     diff --git a/cmake/Platform/Common/MSVC/Configurations_msvc.cmake b/cmake/Platform/Common/MSVC/Configurations_msvc.cmake
@@ -51,6 +51,36 @@ An integration of [Live++](https://liveplusplus.tech/) for [Open 3D Engine](http
             /DEBUG              # Generate pdbs
         LINK_NON_STATIC_RELEASE
     ```
+    b. Debug Builds
+    ```bash
+    PS E:\o3de> git diff cmake\Platform\Common\MSVC\Configurations_msvc.cmake            
+    diff --git a/cmake/Platform/Common/MSVC/Configurations_msvc.cmake b/cmake/Platform/Common/MSVC/Configurations_msvc.cmake
+    index 66a5b7b01f..221d813e08 100644
+    --- a/cmake/Platform/Common/MSVC/Configurations_msvc.cmake
+    +++ b/cmake/Platform/Common/MSVC/Configurations_msvc.cmake
+    @@ -70,6 +70,8 @@ ly_append_configurations_options(
+                            # It also causes the compiler to place the library name MSVCRTD.lib into the .obj file.        
+            /Ob0            # Disables inline expansions
+            /Od             # Disables optimization
+    +       /Z7             # for hot patching C++ code
+    +       /Gw             # for hot patching C++ code
+        COMPILATION_PROFILE
+            /GF             # Enable string pooling   
+            /Gy             # Function level linking
+    @@ -88,9 +90,11 @@ ly_append_configurations_options(
+        LINK
+            /NOLOGO             # Suppress Copyright and version number message
+            /IGNORE:4099        # 3rdParty linking produces noise with LNK4099
+    +        /OPT:NOREF         # for hot patching C++ code
+    +        /OPT:NOICF         # for hot patching C++ code
+    +        /FUNCTIONPADMIN    # for hot patching C++ code
+    +        
+        LINK_NON_STATIC_PROFILE
+    -        /OPT:REF            # Eliminates functions and data that are never referenced
+    -        /OPT:ICF            # Perform identical COMDAT folding. Redundant COMDATs can be removed from the linker output
+         /INCREMENTAL:NO
+    ```
+
 
 ## Configuration
 
