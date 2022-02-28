@@ -5,7 +5,7 @@
 #       in which case it will see if that platform is present here or in the restricted folder.
 #       i.e. It could here in our gem : Gems/LivePlusPlus/Code/Platform/<platorm_name>  or
 #            <restricted_folder>/<platform_name>/Gems/LivePlusPlus/Code
-ly_get_list_relative_pal_filename(pal_dir ${CMAKE_CURRENT_LIST_DIR}/Platform/${PAL_PLATFORM_NAME} ${o3de_gem_restricted_path} ${o3de_gem_path} ${o3de_gem_name})
+o3de_pal_dir(pal_dir "${CMAKE_CURRENT_LIST_DIR}/Platform/${PAL_PLATFORM_NAME}" "${o3de_gem_restricted_path}" "${o3de_gem_path}" "${o3de_gem_name}")
 
 # Now that we have the platform abstraction layer (PAL) folder for this folder, thats where we will find the
 # traits for this platform. Traits for a platform are defines for things like whether or not something in this gem
