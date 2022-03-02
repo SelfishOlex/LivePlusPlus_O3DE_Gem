@@ -20,6 +20,39 @@ An integration of [Live++](https://liveplusplus.tech/) for [Open 3D Engine](http
 
 ## Modifying Compiler/Linker Settings for Hotpatching C++ code
 
+### Enable Hotpatching for your project and your gems
+
+For each project/gem you wish to hotpatch, do the following:
+
+- create a PAL file for windows `Gems\MyGem\Code\Platform\Windows\enable_hotpatch_windows.cmake`
+    ```
+    set(LY_LINK_OPTIONS
+        PRIVATE
+            /FUNCTIONPADMIN
+            /OPT:NOREF
+            /OPT:NOICF
+    )
+    ```
+- other platforms should have this file as empty, for example: `Gems\MyGem\Code\Platform\Linux\enable_hotpatch_linux.cmake`
+    ```
+    ```
+- for a Gem/Project target in CMake include the above PAL file as:
+    ```
+    ly_add_target(
+        NAME MyGem ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE}
+        NAMESPACE Gem
+        ...
+        PLATFORM_INCLUDE_FILES
+            ${pal_dir}/enable_hotpatch_${PAL_PLATFORM_NAME_LOWERCASE}.cmake
+        ...
+    )
+    ```
+
+This will enable hotpatching just for gems and projects that you wish to hotpatch. You do need to make this change for each ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE} target, though. An additional improvement would be to create a common place for `enable_hotpatch_windows.cmake` PAL files and re-use them across Gems.
+
+
+### (Optional) Enable Hotpatching for the the entire engine
+
 1. Go to `o3de\cmake\Platform\Common\MSVC\Configurations_msvc.cmake`
 1. Make the following changes:
 a. Profile Builds  
