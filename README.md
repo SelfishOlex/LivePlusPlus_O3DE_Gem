@@ -24,8 +24,14 @@ An integration of [Live++](https://liveplusplus.tech/) for [Open 3D Engine](http
 
 For each project/gem you wish to hotpatch, do the following:
 
-- create a PAL file for windows `Gems\MyGem\Code\Platform\Windows\enable_hotpatch_windows.cmake`
+- create a PAL file for windows `Gems\MyGem\Code\Platform\Windows\enable_hotpatch_link_options_windows.cmake`
     ```
+    set(LY_COMPILE_OPTIONS
+        PUBLIC
+            /Z7
+            /Gw
+    )
+
     set(LY_LINK_OPTIONS
         PRIVATE
             /FUNCTIONPADMIN
@@ -39,8 +45,15 @@ For each project/gem you wish to hotpatch, do the following:
 - for a Gem/Project target in CMake include the above PAL file as:
     ```
     ly_add_target(
+        NAME MyGem.Static STATIC
+        ...
+        PLATFORM_INCLUDE_FILES
+            ${pal_dir}/enable_hotpatch_${PAL_PLATFORM_NAME_LOWERCASE}.cmake
+        ...
+    )
+    
+    ly_add_target(
         NAME MyGem ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE}
-        NAMESPACE Gem
         ...
         PLATFORM_INCLUDE_FILES
             ${pal_dir}/enable_hotpatch_${PAL_PLATFORM_NAME_LOWERCASE}.cmake
