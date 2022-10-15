@@ -12,7 +12,7 @@ Refer to the included example project with Live++ enabled and configured:
 
 > I left out the actual Live++ package due to copyright, of course!
 
-## Compatiblity with Live++ versions
+## Compatibility with Live++ versions
 
 - Use 'main' branch for Live++ **2.0.x**
 - Use 'v1' branch for Live++ **1.x**: https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/tree/v1
