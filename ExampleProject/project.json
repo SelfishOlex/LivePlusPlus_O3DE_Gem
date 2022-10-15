@@ -1,0 +1,21 @@
+{
+    "project_name": "ExampleProject",
+    "project_id": "{916AD613-78F5-43B3-91D9-C3738B52895F}",
+    "origin": "The primary repo for ExampleProject goes here: i.e. http://www.mydomain.com",
+    "license": "What license ExampleProject uses goes here: i.e. https://opensource.org/licenses/Apache-2.0 Or https://opensource.org/licenses/MIT etc.",
+    "display_name": "ExampleProject",
+    "summary": "An example of a project with Live++ enabled.",
+    "canonical_tags": [
+        "Project"
+    ],
+    "user_tags": [
+        "ExampleProject"
+    ],
+    "icon_path": "preview.png",
+    "engine": "o3de-sdk",
+    "external_subdirectories": [
+        "Gem",
+        "../LivePlusPlus"
+    ],
+    "restricted": "ExampleProject"
+}

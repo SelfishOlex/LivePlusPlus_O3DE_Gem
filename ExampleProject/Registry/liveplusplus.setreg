@@ -1,0 +1,9 @@
+{
+    "LivePlusPlus":
+    {
+        "Settings":
+        {
+            "GemFilter": ".*ExampleProject.*"
+        }
+    }
+}
