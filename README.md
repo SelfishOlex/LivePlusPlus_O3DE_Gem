@@ -4,10 +4,13 @@ An integration of [Live++](https://liveplusplus.tech/) for [Open 3D Engine](http
 
 *Important*: Live++ is NOT open source. See its website for details: [Pricing](https://liveplusplus.tech/pricing.html) and [Legal](https://liveplusplus.tech/legal_notice.html).
 
-## Example
+## Example Project
 
-Refer to the included example project with Live++ enabled and configured.
-However! I left not Live++ packaged due to copyrights.
+Refer to the included example project with Live++ enabled and configured:
+
+- https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/tree/main/ExampleProject
+
+> However! I left out Live++ packaged due to copyright.
 
 ## Installation
 
@@ -28,25 +31,8 @@ However! I left not Live++ packaged due to copyrights.
 
 For each project/gem you wish to hotpatch, do the following:
 
-- create a PAL file for windows, for example: `Gems\MyGem\Code\Platform\Windows\enable_hotpatch_link_options_windows.cmake`
-    ```
-    set(LY_LINK_OPTIONS
-        PRIVATE
-            /FUNCTIONPADMIN
-            /OPT:NOREF
-            /OPT:NOICF
-            /DEBUG:FULL
-    )
-
-    set(LY_COMPILE_OPTIONS
-        PRIVATE
-            /Z7
-            /Zi
-            /Gm-
-            /Gy
-            /Gw
-    )
-    ```
+- create a PAL file for windows, such as: `Gems\MyGem\Code\Platform\Windows\enable_hotpatch_link_options_windows.cmake` with the following content:
+    https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/blob/f0eea72f356d3e9e84a663e915316607b8d42b93/ExampleProject/Gem/Platform/Windows/platform_windows.cmake#L2-L17
 - other platforms should have this file as empty, for example: `Gems\MyGem\Code\Platform\Linux\enable_hotpatch_linux.cmake`
     ```
     ```
@@ -59,6 +45,7 @@ For each project/gem you wish to hotpatch, do the following:
             ${pal_dir}/enable_hotpatch_${PAL_PLATFORM_NAME_LOWERCASE}.cmake
         ...
     )
+    > For example: https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/blob/f0eea72f356d3e9e84a663e915316607b8d42b93/ExampleProject/Gem/CMakeLists.txt#L28-L35
 
     ly_add_target(
         NAME MyGem ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE}
@@ -68,9 +55,32 @@ For each project/gem you wish to hotpatch, do the following:
         ...
     )
     ```
+    > For example: https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/blob/f0eea72f356d3e9e84a663e915316607b8d42b93/ExampleProject/Gem/CMakeLists.txt#L45-L52
 
 This will enable hotpatching just for gems and projects that you wish to hotpatch. You do need to make this change for each ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE} target, though. An additional improvement would be to create a common place for `enable_hotpatch_windows.cmake` PAL files and re-use them across Gems.
 
+
+## Configuration
+
+1. Refer to [Live++ documentation](https://liveplusplus.tech/docs/documentation.html).
+1. By default, all gems registered for your O3DE project will be hot patched.
+1. Optionally, you can set a regex filter to choose which O3DE gems by using O3DE registry.
+
+    > Note: This can significantly improve performance of Live++ and is highly encouraged to improve iteration times.
+    
+    https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/blob/f0eea72f356d3e9e84a663e915316607b8d42b93/ExampleProject/Registry/liveplusplus.setreg#L1-L9
+
+    Here are some other examples:
+    - ".*" - Matches any path
+    - ".*ImGui.*" - Matches ImGui gems
+    - ".*ImGui.*|.*ScriptCanvas.*" - Matches ImGui and ScriptCanvas gem
+
+
+That is it! You are done!
+
+
+
+## Optional Advanced Configurations
 
 ### (Optional) Enable Hotpatching for the the entire engine
 
@@ -135,40 +145,15 @@ a. Profile Builds
          /INCREMENTAL:NO
     ```
 
-
-## Configuration
-
-1. Refer to [Live++ documentation](https://liveplusplus.tech/docs/documentation.html).
-1. By default, all gems registered for your O3DE project will be hot patched.
-1. Optionally, you can set a regex filter to choose which O3DE gems by using O3DE registry.
-
-    For example, see ExampleProject\Registry\liveplusplus.setreg
-    ```json
-    {
-        "LivePlusPlus":
-        {
-            "Settings":
-            {
-                "GemFilter": ".*ExampleProject.*"
-            }
-        }
-    }
-    ```
-
-    Here are some example:
-    ".*" - Matches any path
-    ".*ImGui.*" - Match ImGui gems
-    ".*ImGui.*|.*ScriptCanvas.*" - Match ImGui and ScriptCanvas gem
-
-    > Note: This can significantly improve performance of Live++ and is highly encouraged to improve iteration times.
-
+### Enabling Live++ for other dynamic libraries
 1. By default only AZ Modules are loaded for use with Live++. There are some dynamic libraries that are themselves not AZ Modules. It is possible to load these explicitly in `LivePlusPlusSystemComponent_Windows.cpp` with:
 
     ```c++
     const char* library = <full-path-to-dll>; // e.g. <path/to>/EditorLib.dll
-    wchar_t widePath[1024] = { 0 };
-    AZStd::to_wstring(widePath, strlen(library), library);
-    lpp::lppEnableModuleAsync(m_livePlusPlus.Get(), widePath);
+    m_lppAgent.EnableModuleANSI(library, lpp::LPP_MODULES_OPTION_NONE);
     ```
+    
+    In the following section:
+    https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/blob/f0eea72f356d3e9e84a663e915316607b8d42b93/LivePlusPlus/Code/Platform/Windows/LivePlusPlusSystemComponent_Windows.cpp#L169-L176
 
 Enjoy!
