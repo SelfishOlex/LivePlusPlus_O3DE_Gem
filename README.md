@@ -12,6 +12,11 @@ Refer to the included example project with Live++ enabled and configured:
 
 > However! I left out Live++ packaged due to copyright.
 
+## Compatiblity with Live++ versions
+
+- Use 'main' branch for Live++ 2.0.x
+- Use 'v1' branch Live++ 1.x: https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/tree/v1
+
 ## Installation
 
 1. Let's assume O3DE engine is at `C:\git\o3de` and your project is at `C:\git\YourProject`.
