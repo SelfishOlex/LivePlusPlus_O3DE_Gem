@@ -10,7 +10,7 @@ Refer to the included example project with Live++ enabled and configured:
 
 - https://github.com/AMZN-Olex/LivePlusPlus_O3DE_Gem/tree/main/ExampleProject
 
-> However! I left out Live++ packaged due to copyright.
+> I left out the actual Live++ package due to copyright, of course!
 
 ## Compatiblity with Live++ versions
 
