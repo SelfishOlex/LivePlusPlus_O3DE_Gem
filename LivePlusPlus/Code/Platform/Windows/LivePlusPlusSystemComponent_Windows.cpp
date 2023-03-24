@@ -90,7 +90,7 @@ namespace LivePlusPlus
         CreateLivePlusPlusAgent();
         ReadOptionalGemFilter();
         EnableLivePlusPlusForProjectGems();
-        
+
         AZ::SystemTickBus::Handler::BusConnect();
 #endif
     }
@@ -168,7 +168,7 @@ namespace LivePlusPlus
         {
             if (moduleData.GetDynamicModuleHandle())
             {
-                const char* path = moduleData.GetDynamicModuleHandle()->GetFilename().c_str();
+                const char* path = moduleData.GetDynamicModuleHandle()->GetFilename();
 
                 if (std::regex_match(path, m_approvedGemsRegex))
                 {
